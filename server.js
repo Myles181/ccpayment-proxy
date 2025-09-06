@@ -14,6 +14,8 @@ app.use(
       "https://localhost:8080",
       "https://invest.fluxel.app",
       "https://www.invest.fluxel.app",
+      "https://lovable.dev",
+      "https://www.lovable.dev",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
