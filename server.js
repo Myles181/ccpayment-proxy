@@ -556,7 +556,7 @@ app.post("/admin-approve-withdrawal", async (req, res) => {
     const userData = await userResponse.json();
 
     // Check if user is admin
-    if (userData.email !== "admin@2beetex.com") {
+    if (userData.role !== "admin") {
       return res.status(403).json({
         success: false,
         error: "Admin access required",
