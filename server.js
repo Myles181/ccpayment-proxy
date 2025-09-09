@@ -339,7 +339,7 @@ app.post("/get-deposit-record", async (req, res) => {
 
 // Create withdrawal to blockchain network endpoint
 app.post("/create-withdrawal", async (req, res) => {
-  try {
+  try 
     // Extract and validate auth token
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -387,6 +387,7 @@ app.post("/create-withdrawal", async (req, res) => {
 
     // coinId is always 1280 (constant)
     const coinId = 1280;
+
     // merchantPayNetworkFee is always false
     const merchantPayNetworkFee = false;
 
@@ -403,6 +404,16 @@ app.post("/create-withdrawal", async (req, res) => {
 
     const appId = process.env.CCPAYMENT_APP_ID;
     const appSecret = process.env.CCPAYMENT_APP_SECRET;
+    let newChain;
+    if (chain === "TRC20") {
+      newChain = "TRX";
+    } else if (chain === "BEP20") {
+      newChain = "BSC";
+    } else if (chain === "ERC20") {
+      newChain = "ETH";
+    } else {
+      newChain = chain; // Use as-is for other chains
+    }
 
     if (!appId || !appSecret) {
       console.error("❌ CCPayment credentials not configured");
@@ -415,7 +426,7 @@ app.post("/create-withdrawal", async (req, res) => {
     // Prepare the request payload
     const payload = {
       coinId: coinId, // Always 1280
-      chain: chain,
+      chain: newChain,
       address: address,
       amount: amount.toString(),
       orderId: orderId,
@@ -490,7 +501,7 @@ app.post("/create-withdrawal", async (req, res) => {
       recordId: response.data.data?.recordId,
       ccpaymentResponse: response.data,
     });
-  } catch (error) {
+   catch (error) {
     console.error("❌ Error in create-withdrawal:", error);
 
     // Handle timeout errors specially
@@ -582,6 +593,16 @@ app.post("/admin-approve-withdrawal", async (req, res) => {
 
     const appId = process.env.CCPAYMENT_APP_ID;
     const appSecret = process.env.CCPAYMENT_APP_SECRET;
+    let newChain;
+    if (chain === "TRC20") {
+      newChain = "TRX";
+    } else if (chain === "BEP20") {
+      newChain = "BSC";
+    } else if (chain === "ERC20") {
+      newChain = "ETH";
+    } else {
+      newChain = chain; // Use as-is for other chains
+    }
 
     if (!appId || !appSecret) {
       console.error("❌ CCPayment credentials not configured");
@@ -593,7 +614,7 @@ app.post("/admin-approve-withdrawal", async (req, res) => {
 
     const payload = {
       coinId: 1280, // Always USDT
-      chain: chain,
+      chain: newChain,
       address: address,
       amount: amount.toString(),
       orderId: orderId,
