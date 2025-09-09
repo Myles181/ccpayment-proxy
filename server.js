@@ -339,7 +339,7 @@ app.post("/get-deposit-record", async (req, res) => {
 
 // Create withdrawal to blockchain network endpoint
 app.post("/create-withdrawal", async (req, res) => {
-  try 
+  try {
     // Extract and validate auth token
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -501,7 +501,7 @@ app.post("/create-withdrawal", async (req, res) => {
       recordId: response.data.data?.recordId,
       ccpaymentResponse: response.data,
     });
-   catch (error) {
+  } catch (error) {
     console.error("❌ Error in create-withdrawal:", error);
 
     // Handle timeout errors specially
@@ -515,13 +515,14 @@ app.post("/create-withdrawal", async (req, res) => {
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error.message,
       details: error.response?.data || "Unknown error",
     });
   }
 });
+
 
 // Admin approve withdrawal endpoint - processes the actual withdrawal
 app.post("/admin-approve-withdrawal", async (req, res) => {
